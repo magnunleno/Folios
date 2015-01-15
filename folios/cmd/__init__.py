@@ -23,6 +23,8 @@ Options:
   --version             Show version.
 """
 
+__all__ = ['init', 'update', 'serve', 'clean', 'dialogs']
+
 import folios
 from folios.cmd import init, update, serve, clean
 
