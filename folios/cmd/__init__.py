@@ -25,7 +25,6 @@ Options:
 
 import folios
 from folios.cmd import init, update, serve, clean
-from folios.exceptions import FoliosNotImplementedException
 
 from docopt import docopt
 
@@ -43,7 +42,3 @@ def main(argv):
     for arg in ARG_MAP:
         if args.__getitem__(arg):
             return ARG_MAP[arg].run(argv)
-    else:
-        raise FoliosNotImplementedException(
-            "Functionality not implemented yet."
-            )
