@@ -2,8 +2,11 @@
 # encoding: utf-8
 
 from setuptools import setup
+from setuptools import find_packages
 
-requires = ['nose >= 1.0']
+with open('requirements.txt') as fd:
+    requires = map(str.strip, fd.readlines())
+    requires = [line for line in requires if line]
 
 entry_points = {
     'console_scripts': [
@@ -20,7 +23,7 @@ setup(
     author_email='magnun.leno@gmail.com',
     description="My own static site generator.",
     long_description="No long description yet :D",
-    packages=['folios', 'folios.tests'],
+    packages=find_packages(),
     package_data={
         'folios': ['data/*/*'],
         },
@@ -38,6 +41,6 @@ setup(
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
-    test_suite='folios.tests',
+    test_suite='nose.collector',
 )
 
