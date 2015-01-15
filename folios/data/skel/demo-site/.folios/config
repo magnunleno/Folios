@@ -1,0 +1,8 @@
+[core]
+	articles = ./articles
+	images = ./images
+	output = ./output
+
+[cache]
+	enable = True
+	folder = ./.folios/cache
