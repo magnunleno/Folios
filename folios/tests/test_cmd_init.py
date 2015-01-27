@@ -3,6 +3,7 @@
 
 import os
 import tempfile
+from folios import __rootfolder__
 from folios import cmd
 from folios import utils
 from nose.tools import raises
@@ -29,7 +30,7 @@ def test_init_site():
     assert os.path.exists(utils.joinPath(tmpdir, 'site-name'))
     assert os.path.exists(utils.joinPath(tmpdir, 'site-name', 'articles'))
     assert os.path.exists(utils.joinPath(tmpdir, 'site-name', 'images'))
-    assert os.path.exists(utils.joinPath(tmpdir, 'site-name', '.folios'))
+    assert os.path.exists(utils.joinPath(tmpdir, 'site-name', __rootfolder__))
     utils.deleteFolder(tmpdir)
 
 
@@ -43,5 +44,5 @@ def test_init_site_folder():
     assert os.path.exists(utils.joinPath(tmpdir, 'folder-name'))
     assert os.path.exists(utils.joinPath(tmpdir, 'folder-name', 'articles'))
     assert os.path.exists(utils.joinPath(tmpdir, 'folder-name', 'images'))
-    assert os.path.exists(utils.joinPath(tmpdir, 'folder-name', '.folios'))
+    assert os.path.exists(utils.joinPath(tmpdir, 'folder-name', __rootfolder__))
     utils.deleteFolder(tmpdir)

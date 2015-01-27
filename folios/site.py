@@ -3,6 +3,7 @@
 
 import os
 
+from folios import __rootfolder__
 from folios.exceptions import FoliosAbortException
 from folios.utils import joinPath
 
@@ -31,4 +32,4 @@ class Site(object):
         self.__resolveRootFolder(new_folder)
 
     def __isFoliosSite(self, path):
-        return os.path.exists(joinPath(path, '.folios'))
+        return os.path.exists(joinPath(path, __rootfolder__))
