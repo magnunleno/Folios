@@ -4,11 +4,14 @@
 """
 Folios - Yet another Static site generator.
 
-Usage: folios init <site-name> [-d=<folder>]
+Usage: folios init <site-name> [-d=<folder>] [-D -V]
 
 Options:
   -h --help         Show this screen.
   -v --version      Show version.
+  -V --verbose      Show verbose information.
+  -D --debug        Show verbose information.
+
   -d=<folder>       Destiny folder.
 """
 

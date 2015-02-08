@@ -4,11 +4,14 @@
 """
 Folios - Yet another Static site generator.
 
-Usage: folios update [cache|html|<filename>...]
+Usage: folios update [cache|html|<filename>...] [-D -V]
 
 Options:
   -h --help     Show this screen.
   -v --version  Show version.
+  -V --verbose      Show verbose information.
+  -D --debug        Show verbose information.
+
   all           Updates everything.
   cache         Rescans the source files and updates cache but don't write any
                 HTML.
