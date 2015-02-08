@@ -13,3 +13,8 @@ class FoliosAbortException(FoliosBaseException):
 
 class FoliosSkelException(FoliosBaseException):
     pass
+
+
+class UnknownSettingException(FoliosBaseException):
+    def __init__(self, key):
+        self.message = "Unknown setting '{}'".format(key)
