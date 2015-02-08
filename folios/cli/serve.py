@@ -15,12 +15,12 @@ Options:
   -b            Bind address and port. [default: 127.0.0.1:8000]
 """
 
-import folios
-
 from docopt import docopt
 
 
+from folios.cli import init_cli
+
+@init_cli
 def run(argv):
-    args = docopt(__doc__, argv=argv, version='Folios '+folios.__version__)
     print(args)
     return args

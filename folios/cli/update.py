@@ -20,12 +20,11 @@ Options:
                 file(s).
 """
 
-import folios
-
 from docopt import docopt
 
+from folios.cli import init_cli
 
+@init_cli
 def run(argv):
-    args = docopt(__doc__, argv=argv, version='Folios '+folios.__version__)
     print(args)
     return args

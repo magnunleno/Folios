@@ -25,22 +25,67 @@ Options:
 
 __all__ = ['init', 'update', 'serve', 'clean', 'dialogs']
 
-import folios
-from folios.cmd import init, update, serve, clean
-
 from docopt import docopt
 
-ARG_MAP = {
-    'init': init,
-    'update': update,
-    'serve': serve,
-    'clean': clean,
-    }
+import folios
+from folios.core import exceptions
+from folios.core import logger
+from folios.core import settings
 
+def init_cli(func):
+    def inner(module, argv):
+        args = docopt(module.__doc__, argv=argv, version='Folios '+folios.__version__)
+        if '--debug' in args and args['--debug']:
+            func.__globals__['debug'] = True
+        if '--debug' in args and args['--verbose']:
+            func.__globals__['verbose'] = True
+        func.__globals__['args'] = args
+        return func(argv)
+    return inner
 
 def main(argv):
-    args = docopt(__doc__, argv=argv[:1], version='Folios '+folios.__version__)
+    from folios.cli import init
+    from folios.cli import update
+    from folios.cli import serve
+    from folios.cli import clean
+    from folios.cli import dialogs
 
-    for arg in ARG_MAP:
-        if args.__getitem__(arg):
-            return ARG_MAP[arg].run(argv)
+    arg_map = {
+        'init': init,
+        'update': update,
+        'serve': serve,
+        'clean': clean,
+        }
+
+    args = docopt(__doc__, argv=argv[:1], version='Folios '+folios.__version__)
+    for (arg, module) in arg_map.items():
+        flag = args.__getitem__(arg)
+        if flag:
+            break
+
+    sett = settings.Settings(basepath=None)
+    sett['file-log.enable'] = False
+
+    try:
+        site = arg_map[arg].run(module, argv)
+    except exceptions.FoliosAbortException as e:
+        log = logger.get_logger('cli.main', sett)
+        log.warning("Execution aborted! {}".format(e.message))
+        exit(1)
+    except exceptions.FoliosBaseException as e:
+        log = logger.get_logger('cli.main', sett)
+        log.error("Folios exception", exc_info=e)
+        exit(1)
+    except Exception as e:
+        log = logger.get_logger('cli.main', sett)
+        log.error("Unexpected exception", exc_info=e)
+        exit(1)
+    else:
+        log = logger.get_logger('cli.main', site.settings)
+        log.debug("Ended succesfully!")
+        exit(0)
+
+
+if __name__ == '__main__':
+    import sys
+    main(sys.argv[1:])

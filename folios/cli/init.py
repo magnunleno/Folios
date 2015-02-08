@@ -15,38 +15,82 @@ Options:
   -d=<folder>       Destiny folder.
 """
 
-import folios
-from folios import utils
-from folios.cmd import dialogs
-from folios.site import Site
-from folios.exceptions import FoliosAbortException
+import os
+import logging
 
-from docopt import docopt
-from os.path import exists
-from os import chdir
+from folios.cli import dialogs
+from folios.cli import init_cli
+from folios.core import utils
+from folios.core import logger
+from folios.core.site import Site
+from folios.core.settings import Settings
+from folios.core.exceptions import FoliosAbortException
+
+DEBUG = False
+VERBOSE = False
+
+DBG_NAME, DBG_NAME_COLOR, DBG_TEXT_COLOR = logger.LEVEL[logging.DEBUG]
+DBG_HEADER = DBG_NAME_COLOR + DBG_NAME + ":" + logger.RESET_ALL
 
 
+def log_debug(msg, *args):
+    if DEBUG:
+        msg = DBG_TEXT_COLOR + msg.format(*args) + logger.RESET_ALL
+        print("{} {}".format(DBG_HEADER, msg))
+
+
+@init_cli
 def run(argv):
-    args = docopt(__doc__, argv=argv, version='Folios '+folios.__version__)
+    if 'debug' in globals():
+        global DEBUG
+        DEBUG = debug
+        logger.set_force_debug(debug)
+
+    if 'verbose' in globals():
+        global VERBOSE
+        VERBOSE = verbose
+        logger.set_force_verbose(verbose)
+
     if args['-d']:
         folder = args['-d']
+        log_debug("Folder specified '{}'", folder)
     else:
         folder = utils.slugify(args['<site-name>'])
+        log_debug("Folder name generated based in site name: '{}'", folder)
 
-    if exists(folder):
+    if os.path.exists(folder):
+        log_debug("Folder already exists")
         answer = dialogs.proceed_yes_no(
             "The folder '{}' already exists, should I delete it".format(
                 folder
                 )
             )
         if not answer:
-            raise FoliosAbortException("Aborting execution...")
+            raise FoliosAbortException("Folder already in use.")
+        log_debug("Deleting folder...")
         utils.deleteFolder(folder)
 
+    log_debug("Copying skel...")
     utils.copySkel('demo-site', folder)
 
-    chdir(utils.joinPath(folder))
-    site = Site()
+    os.chdir(folder)
 
-    print("New site available at '{}'".format(folder))
-    return args
+    log_debug("Loading settings")
+    settings = Settings(folder)
+
+    log_debug("Settings temporary values")
+    if VERBOSE:
+        settings.set_tmp('core.verbose', VERBOSE)
+    if DEBUG:
+        settings.set_tmp('cli-log.level', 'debug')
+
+    log_debug("Initializing new site...")
+    site = Site(folder, settings)
+    log = logger.get_logger('cli.init', settings)
+
+    log.debug("Setting site name in settings")
+    settings['site.name'] = args['<site-name>']
+    settings.save()
+
+    log.info("New site available at '{}'".format(folder))
+    return site
