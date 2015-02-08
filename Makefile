@@ -9,7 +9,7 @@ remove-env:
 rebuild-env: remove-env build-env
 
 test:
-	python3 setup.py test
+	. $(ENV)/bin/activate; python3 setup.py test
 
 test-installed:
 	@[ -d $(ENV) ] || make build-env
@@ -28,3 +28,5 @@ clean-build:
 clean-python:
 	-find . -type d -name __pycache__ -exec rm -rf {} \;
 	-find . -type f -name *.pyc -exec rm -rf {} \;
+
+.PHONY: build-env remove-env rebuild-env test test-installed call clean clean-build clean-python
