@@ -4,5 +4,5 @@
 	output = ./output
 
 [cache]
-	enable = True
+	enable = yes
 	folder = ./.folios/cache
