@@ -10,11 +10,7 @@ from datetime import datetime
 from unicodedata import normalize
 
 import folios
-from folios.exceptions import FoliosSkelException
-
-
-def joinPath(*path_elements):
-    return path.sep.join(path_elements)
+from folios.core.exceptions import FoliosSkelException
 
 
 def createFolder(folder_path):
