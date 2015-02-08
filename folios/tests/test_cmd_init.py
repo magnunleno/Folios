@@ -3,45 +3,41 @@
 
 import os
 import tempfile
-from folios import cmd
-from folios import utils
+from folios import cli
+from folios.core import __rootfolder__
+from folios.core import utils
 from nose.tools import raises
 from docopt import DocoptExit
 
 
 @raises(DocoptExit)
 def test_init_error():
-    cmd.main(['init'])
+    cli.main(['init'])
 
 
 @raises(DocoptExit)
 def test_init_unknown_option():
-    cmd.main(['init', 'site-name', '-x'])
+    cli.main(['init', 'site-name', '-x'])
 
 
 def test_init_site():
     tmpdir = tempfile.mkdtemp()
     os.chdir(tmpdir)
-    args = cmd.main(['init', 'site-name'])
-    assert args['init'] is True
-    assert args['<site-name>'] == 'site-name'
-    assert args['-d'] is None
-    assert os.path.exists(utils.joinPath(tmpdir, 'site-name'))
-    assert os.path.exists(utils.joinPath(tmpdir, 'site-name', 'articles'))
-    assert os.path.exists(utils.joinPath(tmpdir, 'site-name', 'images'))
-    assert os.path.exists(utils.joinPath(tmpdir, 'site-name', '.folios'))
+    print("TMP", tmpdir)
+    cli.main(['init', 'site-name'], do_exit=False)
+    assert os.path.exists(os.path.join(tmpdir, 'site-name'))
+    assert os.path.exists(os.path.join(tmpdir, 'site-name', 'articles'))
+    assert os.path.exists(os.path.join(tmpdir, 'site-name', 'images'))
+    assert os.path.exists(os.path.join(tmpdir, 'site-name', __rootfolder__))
     utils.deleteFolder(tmpdir)
 
 
 def test_init_site_folder():
     tmpdir = tempfile.mkdtemp()
     os.chdir(tmpdir)
-    args = cmd.main(['init', 'site-name', '-d', 'folder-name'])
-    assert args['init'] is True
-    assert args['<site-name>'] == 'site-name'
-    assert args['-d'] == 'folder-name'
-    assert os.path.exists(utils.joinPath(tmpdir, 'folder-name'))
-    assert os.path.exists(utils.joinPath(tmpdir, 'folder-name', 'articles'))
-    assert os.path.exists(utils.joinPath(tmpdir, 'folder-name', 'images'))
-    assert os.path.exists(utils.joinPath(tmpdir, 'folder-name', '.folios'))
+    cli.main(['init', 'site-name', '-d', 'folder-name'], do_exit=False)
+    assert os.path.exists(os.path.join(tmpdir, 'folder-name'))
+    assert os.path.exists(os.path.join(tmpdir, 'folder-name', 'articles'))
+    assert os.path.exists(os.path.join(tmpdir, 'folder-name', 'images'))
+    assert os.path.exists(os.path.join(tmpdir, 'folder-name', __rootfolder__))
     utils.deleteFolder(tmpdir)
