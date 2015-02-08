@@ -5,7 +5,8 @@
 def proceed_yes_no(msg):
     while True:
         answer = input(msg + " (yes/no)? ")
-        if answer in ('yes', 'no') or answer in ('y', 'n'):
+        answer = answer.lower()
+        if 'yes'.startswith(answer) or 'no'.startswith(answer):
             break
         print("Please answer 'yes' or 'no'.")
-    return answer == 'yes'
+    return 'yes'.startswith(answer)
