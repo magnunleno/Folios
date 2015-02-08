@@ -43,7 +43,7 @@ def init_cli(func):
         return func(argv)
     return inner
 
-def main(argv):
+def main(argv, do_exit=True):
     from folios.cli import init
     from folios.cli import update
     from folios.cli import serve
@@ -71,19 +71,23 @@ def main(argv):
     except exceptions.FoliosAbortException as e:
         log = logger.get_logger('cli.main', sett)
         log.warning("Execution aborted! {}".format(e.message))
-        exit(1)
+        if do_exit:
+            exit(1)
     except exceptions.FoliosBaseException as e:
         log = logger.get_logger('cli.main', sett)
         log.error("Folios exception", exc_info=e)
-        exit(1)
+        if do_exit:
+            exit(1)
     except Exception as e:
         log = logger.get_logger('cli.main', sett)
         log.error("Unexpected exception", exc_info=e)
-        exit(1)
+        if do_exit:
+            exit(1)
     else:
         log = logger.get_logger('cli.main', site.settings)
         log.debug("Ended succesfully!")
-        exit(0)
+        if do_exit:
+            exit(0)
 
 
 if __name__ == '__main__':
