@@ -73,6 +73,7 @@ def run(argv):
     log_debug("Copying skel...")
     utils.copySkel('demo-site', folder)
 
+    folder = os.path.abspath(folder)
     os.chdir(folder)
 
     log_debug("Loading settings")
