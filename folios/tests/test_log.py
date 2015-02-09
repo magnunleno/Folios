@@ -26,6 +26,7 @@ def build_match(level, string, name):
 
 def build_debug_match(level, string, name):
     date_match = '[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}'
+    name_match = '[a-zA-Z._]*'
     fname_match = '[a-zA-Z._]*'
     funcname_match = '[a-zA-Z._]*'
     lineno_match = '[0-9]*'
@@ -34,8 +35,8 @@ def build_debug_match(level, string, name):
         text = string
     else:
         text = '{}: {}'.format(lvl, string)
-    match = '\[{0}@{1}:{2}:{3}\] {4}'.format(
-            date_match, fname_match,
+    match = '\[{0}\] {1}:{2}@{3}:{4} {5}'.format(
+            date_match, name_match, fname_match,
             funcname_match, lineno_match,
             text
         )

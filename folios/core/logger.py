@@ -42,8 +42,9 @@ class ColorFormatter(logging.Formatter):
         self.verbose = verbose
 
         if self.verbose:
-            fmt = Style.DIM + "[%(asctime)s@%(filename)s:%(funcName)s" + \
-                ":%(lineno)s]" + Style.NORMAL + " %(level_color)s%(message)s"
+            fmt = Style.DIM + "[%(asctime)s] %(name)s:%(funcName)s@" + \
+                "%(filename)s:%(lineno)s" + Style.NORMAL + \
+                " %(level_color)s%(message)s"
         else:
             fmt = Style.DIM + "%(name)s@" + Style.NORMAL + \
                 "%(level_color)s%(message)s"
