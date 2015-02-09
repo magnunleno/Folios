@@ -8,9 +8,6 @@ from colorama import Fore, Back, Style
 INITIALIZED = False
 RESET_ALL = Fore.RESET + Back.RESET + Style.RESET_ALL
 
-FORCE_VERBOSE = False
-FORCE_DEBUG = False
-
 LEVEL = {
     logging.DEBUG: (
         'DEBG',
@@ -45,9 +42,11 @@ class ColorFormatter(logging.Formatter):
         self.verbose = verbose
 
         if self.verbose:
-            fmt = "[%(asctime)s@%(name)s] %(level_color)s%(message)s"
+            fmt = Style.DIM + "[%(asctime)s@%(filename)s:%(funcName)s" + \
+                ":%(lineno)s]" + Style.NORMAL + " %(level_color)s%(message)s"
         else:
-            fmt = "%(level_color)s%(message)s"
+            fmt = Style.DIM + "%(name)s@" + Style.NORMAL + \
+                "%(level_color)s%(message)s"
 
         datefmt = "%Y-%m-%d %H:%M"
         super(ColorFormatter, self).__init__(fmt=fmt, datefmt=datefmt)
@@ -133,16 +132,6 @@ def get_file_handler(fname, size, backups, level=logging.INFO):
         )
     return handler
 
-
-def set_force_verbose(verbose):
-    global FORCE_VERBOSE
-    FORCE_VERBOSE = verbose
-
-
-def set_force_debug(debug):
-    global FORCE_DEBUG
-    FORCE_DEBUG = debug
-
 if __name__ == '__main__':
     print("First test")
     log = get_logger('main',
@@ -153,6 +142,7 @@ if __name__ == '__main__':
                          'file-log.file_name': '/tmp/folios.log',
                          'file-log.level': 'debug',
                          'file-log.backups': 5,
+                         'file-log.size': 10,
                      }
                      )
     log.debug('This is a debug text')
@@ -170,6 +160,7 @@ if __name__ == '__main__':
                          'file-log.file_name': '/tmp/folios.log',
                          'file-log.level': 'debug',
                          'file-log.backups': 5,
+                         'file-log.size': 10,
                          }
                      )
     log.debug('This is a debug text')

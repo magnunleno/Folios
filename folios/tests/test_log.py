@@ -18,20 +18,27 @@ LEVELS = {
 
 def build_match(level, string, name):
     lvl, lvl_color, msg_color = logger.LEVEL[level]
+    name_match = '[a-zA-Z._]*'
     if level == logging.INFO:
-        return re.compile(string)
-    return re.compile('{}: {}'.format(lvl, string))
+        return re.compile("{}@{}".format(name_match, string))
+    return re.compile('{}@{}: {}'.format(name_match, lvl, string))
 
 
 def build_debug_match(level, string, name):
     date_match = '[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}'
-    name_match = '[a-zA-Z.]*'
+    fname_match = '[a-zA-Z._]*'
+    funcname_match = '[a-zA-Z._]*'
+    lineno_match = '[0-9]*'
     lvl, lvl_color, msg_color = logger.LEVEL[level]
     if level == logging.INFO:
         text = string
     else:
         text = '{}: {}'.format(lvl, string)
-    match = '\[{}@{}\] {}'.format(date_match, name_match, text)
+    match = '\[{0}@{1}:{2}:{3}\] {4}'.format(
+            date_match, fname_match,
+            funcname_match, lineno_match,
+            text
+        )
     return re.compile(match)
 
 
