@@ -44,12 +44,10 @@ def run(argv):
     if 'debug' in globals():
         global DEBUG
         DEBUG = debug
-        logger.set_force_debug(debug)
 
     if 'verbose' in globals():
         global VERBOSE
         VERBOSE = verbose
-        logger.set_force_verbose(verbose)
 
     if args['-d']:
         folder = args['-d']
