@@ -32,23 +32,11 @@ from folios.core import exceptions
 from folios.core import logger
 from folios.core import settings
 
-def init_cli(func):
-    def inner(module, argv):
-        args = docopt(module.__doc__, argv=argv, version='Folios '+folios.__version__)
-        if '--debug' in args and args['--debug']:
-            func.__globals__['debug'] = True
-        if '--debug' in args and args['--verbose']:
-            func.__globals__['verbose'] = True
-        func.__globals__['args'] = args
-        return func(argv)
-    return inner
-
 def main(argv, do_exit=True):
     from folios.cli import init
     from folios.cli import update
     from folios.cli import serve
     from folios.cli import clean
-    from folios.cli import dialogs
 
     arg_map = {
         'init': init,
@@ -67,7 +55,7 @@ def main(argv, do_exit=True):
     sett['file-log.enable'] = False
 
     try:
-        site = arg_map[arg].run(module, argv)
+        site = arg_map[arg].run(argv)
     except exceptions.FoliosAbortException as e:
         log = logger.get_logger('cli.main', sett)
         log.warning("Execution aborted! {}".format(e.message))

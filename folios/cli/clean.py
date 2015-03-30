@@ -20,8 +20,5 @@ Options:
 from docopt import docopt
 
 
-from folios.cli import init_cli
-
-@init_cli
 def run(argv):
     print(args)

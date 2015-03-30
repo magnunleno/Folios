@@ -20,11 +20,30 @@ Options:
                 file(s).
 """
 
+from os import getcwd
+
 from docopt import docopt
 
-from folios.cli import init_cli
+from folios import __version__
+from folios.core import utils
+from folios.core.site import Site
+from folios.core.settings import Settings
 
-@init_cli
+
 def run(argv):
-    print(args)
-    return args
+    args = docopt(__doc__, argv=argv, version='Folios '+__version__)
+
+    debug = args['--debug']
+    verbose = args['--verbose']
+
+    basepath = utils.resolveRootFolder(getcwd())
+
+    settings = Settings(basepath)
+    if debug:
+        settings.set_tmp('cli-log.level', 'debug')
+    if verbose:
+        settings.set_tmp('core.verbose', verbose)
+
+    site = Site(basepath, settings)
+    site.update()
+    return site
