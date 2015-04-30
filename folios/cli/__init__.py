@@ -8,6 +8,7 @@ Usage: folios init   [options] ...
        folios update [options] ...
        folios clean  [options] ...
        folios serve  [options] ...
+       folios list   [options] ...
 
 Descriptions:
 
@@ -32,17 +33,20 @@ from folios.core import exceptions
 from folios.core import logger
 from folios.core import settings
 
+
 def main(argv, do_exit=True):
     from folios.cli import init
     from folios.cli import update
     from folios.cli import serve
     from folios.cli import clean
+    from folios.cli import list as _list
 
     arg_map = {
         'init': init,
         'update': update,
         'serve': serve,
         'clean': clean,
+        'list': _list,
         }
 
     args = docopt(__doc__, argv=argv[:1], version='Folios '+folios.__version__)
