@@ -25,9 +25,7 @@ from folios.core.site import Site
 from folios.core.exceptions import FoliosAbortException
 
 
-def run(argv):
-    args = docopt(__doc__, argv=argv, version='Folios '+__version__)
-
+def run(args, verbose, debug):
     sitename = args['<site-name>']
     path = args['-d'] if args['-d'] else utils.slugify(sitename)
     debug = args['--debug']

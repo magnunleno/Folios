@@ -51,11 +51,20 @@ def main(argv, do_exit=True):
         if flag:
             break
 
+    inner_args = docopt(arg_map[arg].__doc__, argv=argv, version="Folios {}".format(folios.__version__))
+
+    debug = inner_args['--debug']
+    verbose = inner_args['--verbose']
+
     sett = settings.Settings(basepath=None)
-    sett['file-log.enable'] = False
+    sett['file-log.enabled'] = False
+    if debug:
+        sett.set_tmp('cli-log.level', 'debug')
+    if verbose:
+        sett.set_tmp('core.verbose', verbose)
 
     try:
-        site = arg_map[arg].run(argv)
+        site = arg_map[arg].run(inner_args, verbose, debug)
     except exceptions.FoliosAbortException as e:
         log = logger.get_logger('cli.main', sett)
         log.warning("Execution aborted! {}".format(e.message))
@@ -63,7 +72,10 @@ def main(argv, do_exit=True):
             exit(1)
     except exceptions.FoliosBaseException as e:
         log = logger.get_logger('cli.main', sett)
-        log.error("Folios exception", exc_info=e)
+        if verbose:
+            log.error("Folios exception", exc_info=e)
+        else:
+            log.error("Folios exception: {}".format(e.message))
         if do_exit:
             exit(1)
     except Exception as e:

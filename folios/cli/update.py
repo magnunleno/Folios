@@ -30,12 +30,7 @@ from folios.core.site import Site
 from folios.core.settings import Settings
 
 
-def run(argv):
-    args = docopt(__doc__, argv=argv, version='Folios '+__version__)
-
-    debug = args['--debug']
-    verbose = args['--verbose']
-
+def run(args, verbose, debug):
     basepath = utils.resolveRootFolder(getcwd())
 
     settings = Settings(basepath)
@@ -44,6 +39,6 @@ def run(argv):
     if verbose:
         settings.set_tmp('core.verbose', verbose)
 
-    site = Site(basepath, settings)
+    site = Site(settings, basepath)
     site.update()
     return site

@@ -18,6 +18,6 @@ Options:
 from docopt import docopt
 
 
-def run(argv):
+def run(args, verbose, debug):
     print(args)
     return args
