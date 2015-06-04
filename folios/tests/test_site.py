@@ -2,12 +2,14 @@
 # encoding: utf-8
 
 import os
-import tempfile
-from folios.core import exceptions, site
-from folios.core.settings import Settings
-from folios import cli
-from nose.tools import raises
 import shutil
+import tempfile
+from nose.tools import raises
+
+from folios import cli
+from folios.core import Site
+from folios.core import Settings
+from folios.core import exceptions as ex
 
 
 @raises(exceptions.FoliosAbortException)

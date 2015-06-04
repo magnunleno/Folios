@@ -3,11 +3,12 @@
 
 import os
 import tempfile
+from docopt import DocoptExit
+from nose.tools import raises
+
 from folios import cli
 from folios.core import __rootfolder__
 from folios.core import utils
-from nose.tools import raises
-from docopt import DocoptExit
 
 
 @raises(DocoptExit)

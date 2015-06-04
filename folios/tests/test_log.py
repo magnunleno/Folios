@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 # encoding: utf-8
 
-from folios.core import logger
-from io import StringIO
 import re
 import logging
+from io import StringIO
+
+from folios.core import logger
 
 
 LEVELS = {
