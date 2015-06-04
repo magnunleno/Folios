@@ -39,12 +39,17 @@ Options:
   --version             Show version.
 """
 
-__all__ = ['init', 'update', 'serve', 'clean', 'dialogs']
+__all__ = ['init', 'update', 'serve', 'clean', 'list']
 
+import os
+import importlib
+
+from glob import glob
 from docopt import docopt
+from difflib import SequenceMatcher
 
 import folios
-from folios.core import exceptions
+from folios.core import utils
 from folios.core import logger
 from folios.core import settings
 

@@ -36,10 +36,10 @@ Options:
 
 import os
 import glob
-from docopt import docopt
+
 from folios.core import utils
-from folios.core.settings import Settings
-from folios.core.site import Site
+from folios.core import Settings
+
 
 
 def run(args, verbose, debug):

@@ -31,7 +31,14 @@ Options:
   -b            Bind address and port. [default: 127.0.0.1:8000]
 """
 
-from docopt import docopt
+
+import os
+
+from http.server import HTTPServer
+from http.server import SimpleHTTPRequestHandler
+
+from folios.core import utils
+from folios.core import Settings
 
 
 def run(args, verbose, debug):

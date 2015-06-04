@@ -18,11 +18,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import re
+import os
+import shutil
 import hashlib
-from os import path
-from os import mkdir
-from shutil import rmtree, copytree
-from datetime import datetime
 from unicodedata import normalize
 
 import folios

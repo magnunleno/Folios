@@ -18,11 +18,14 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
-import logging
 
+from time import time
+
+from folios.core import utils
 from folios.core import logger
-from folios.core import __rootfolder__
-from folios.core.exceptions import FoliosAbortException
+from folios.core.cache import Cache
+from folios.core.content import Theme
+from folios.core.content import ContentTypes
 from folios.core.settings import Settings
 
 

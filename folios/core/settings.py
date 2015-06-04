@@ -18,10 +18,13 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
-import folios
-from folios.core import exceptions
-from folios.core import __rootfolder__
 import configparser
+
+import folios
+from folios.core import utils
+from folios.core import FoliosObject
+from folios.core import __rootfolder__
+from folios.core import exceptions as ex
 
 
 class Settings(object):

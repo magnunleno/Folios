@@ -32,13 +32,11 @@ Options:
 """
 
 import os
-from docopt import docopt
 
-from folios import __version__
 from folios.cli import dialogs
 from folios.core import utils
-from folios.core.site import Site
-from folios.core.exceptions import FoliosAbortException
+from folios.core import Site
+from folios.core import exceptions as ex
 
 
 def run(args, verbose, debug):

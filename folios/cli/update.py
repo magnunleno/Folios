@@ -36,14 +36,12 @@ Options:
                 file(s).
 """
 
+
 from os import getcwd
 
-from docopt import docopt
-
-from folios import __version__
+from folios.core import Site
 from folios.core import utils
-from folios.core.site import Site
-from folios.core.settings import Settings
+from folios.core import Settings
 
 
 def run(args, verbose, debug):

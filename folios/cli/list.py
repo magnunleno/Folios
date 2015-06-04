@@ -37,8 +37,8 @@ import os
 from colorama import Fore
 
 from folios.core import utils
-from folios.core.settings import Settings
-from folios.core.site import Site
+from folios.core import Cache
+from folios.core import Settings
 
 
 def print_dict(_dict, indent="    "):
