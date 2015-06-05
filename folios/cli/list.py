@@ -37,9 +37,7 @@ __description__ = "List items and informations about the current site."
 
 from colorama import Fore
 
-from folios.core import utils
 from folios.core import Cache
-from folios.core import Settings
 
 
 def print_dict(_dict, indent="    "):
@@ -47,6 +45,8 @@ def print_dict(_dict, indent="    "):
     items.sort()
     last = []
     for attr, val in items:
+        if attr == "tags" or attr == "category":
+            val = ', '.join(val)
         if not val:
             continue
         if isinstance(val, dict):
@@ -64,22 +64,21 @@ def print_dict(_dict, indent="    "):
         print_dict(val, indent=indent*2)
 
 
-def list_cache(site):
-    if not site.cache.enabled:
+def list_cache(cache):
+    if not cache.enabled:
         print("The caching system is currently disabled")
         return
 
-    keys = [key for key in site.cache]
+    keys = [key for key in cache]
     keys.sort()
     for key in keys:
         print("{}[{}]{}".format(Fore.RED, key, Fore.RESET))
-        print_dict(site.cache[key])
+        print_dict(cache[key])
         print("")
 
 
 def run(args, settings, verbose, debug):
     cache = Cache(settings)
 
-    if "cache" in args:
-        list_cache(site)
-    return site
+    if args["cache"]:
+        list_cache(cache)
