@@ -20,7 +20,7 @@
 """
 Folios - Yet another Static site generator.
 
-Usage: folios clean [cache|output|log|<filename>] [-D -V]
+Usage: folios clean [-c][-o][-l][<filename>] [-D -V]
 
 Options:
   -h --help     Show this screen.
@@ -28,9 +28,9 @@ Options:
   -V --verbose      Show verbose information.
   -D --debug        Show verbose information.
 
-  cache         Cleans all cache contents.
-  output        Cleans all HTML output.
-  log           Cleans all site logging files.
+  -c --cache    Cleans all cache contents.
+  -o --output   Cleans all HTML output.
+  -l --log      Cleans all site logging files.
   <filename>    Cleans all cache and HTML from a specific filename
 """
 __description__ = "Cleans the HTML files, metadata or cache."
@@ -39,29 +39,30 @@ import os
 import glob
 
 from folios.core import utils
-from folios.core import Settings
 
 
+def delete_folder(path, basepath):
+    print("Cleaning cache at '{}'".format(
+        utils.normpath(path, basepath)
+        ))
+    utils.delete_folder(path)
 
 
 def run(args, settings, verbose, debug):
     basepath = utils.resolve_root_folder()
 
-    site = Site(settings, basepath)
+    if args["--cache"]:
+        delete_folder(settings.get_path("cache.folder"), basepath)
 
-    if args["cache"]:
-        print("Cleaning cache at '{}'".format(utils.normalizePath(site.cache.base, site.basepath)))
-        utils.deleteFolder(site.cache.base)
+    if args["--output"]:
+        delete_folder(settings.get_path("core.output"), basepath)
 
-    if args["output"]:
-        print("Cleaning output at '{}'".format(utils.normalizePath(site.outpath, site.basepath)))
-        utils.deleteFolder(site.outpath)
-
-    if args["log"] and settings['file-log.enabled']:
-        file_pattr = settings.getPath('file-log.file_name') + "*"
+    if args["--log"] and settings['file-log.enabled']:
+        file_pattr = settings.get_path('file-log.file_name') + "*"
         files = glob.glob(file_pattr)
         files.sort()
         for fname in files:
-            print("Cleaning log at '{}'".format(utils.normalizePath(fname, site.basepath)))
+            print("Cleaning log at '{}'".format(
+                utils.normpath(fname, basepath)
+                ))
             os.remove(fname)
-    return site
