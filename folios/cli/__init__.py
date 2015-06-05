@@ -17,7 +17,25 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-__doc__ = """
+"""
+What you own is your own kingdom
+What you do is your own glory
+What you love is your own power
+What you live is your own story
+In your head is the answer
+Let it guide you along
+Let your heart be the anchor
+And the beat of your own song
+
+You don't get something for nothing
+You can't have freedom for free
+You won't get wise
+With the sleep still in your eyes
+No matter what your dreams might be 
+                --- Something for Nothing (Rush)
+"""
+
+"""
 Folios - Yet another Static site generator.
 
 Usage:
