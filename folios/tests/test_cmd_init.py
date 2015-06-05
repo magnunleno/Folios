@@ -7,8 +7,8 @@ from docopt import DocoptExit
 from nose.tools import raises
 
 from folios import cli
-from folios.core import __rootfolder__
 from folios.core import utils
+from folios.core import __rootfolder__
 
 
 @raises(DocoptExit)
@@ -30,7 +30,7 @@ def test_init_site():
     assert os.path.exists(os.path.join(tmpdir, 'site-name', 'articles'))
     assert os.path.exists(os.path.join(tmpdir, 'site-name', 'images'))
     assert os.path.exists(os.path.join(tmpdir, 'site-name', __rootfolder__))
-    utils.deleteFolder(tmpdir)
+    utils.delete_folder(tmpdir)
 
 
 def test_init_site_folder():
@@ -41,4 +41,4 @@ def test_init_site_folder():
     assert os.path.exists(os.path.join(tmpdir, 'folder-name', 'articles'))
     assert os.path.exists(os.path.join(tmpdir, 'folder-name', 'images'))
     assert os.path.exists(os.path.join(tmpdir, 'folder-name', __rootfolder__))
-    utils.deleteFolder(tmpdir)
+    utils.delete_folder(tmpdir)
