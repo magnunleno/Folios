@@ -40,9 +40,6 @@ __description__ = "Updates the site (and/or it's meta informations) or parts " +
                   "of it."
 
 from folios.core import Site
-from folios.core import utils
-from folios.core import Settings
-
 
 
 def run(args, settings, verbose, debug):
@@ -51,6 +48,5 @@ def run(args, settings, verbose, debug):
     if verbose:
         settings.set_tmp('core.verbose', verbose)
 
-    site = Site(settings, basepath)
+    site = Site(settings)
     site.update()
-    return site
