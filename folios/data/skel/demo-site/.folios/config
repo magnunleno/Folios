@@ -1,8 +1,15 @@
 [core]
-	articles = ./articles
-	images = ./images
-	output = ./output
+output = ./output
+
+[images]
+source = ./images
+
+[articles]
+source = ./articles
+
+[pages]
+source = ./pages
 
 [cache]
-	enable = yes
-	folder = ./.folios/cache
+enable = yes
+folder = ./.folios/cache
