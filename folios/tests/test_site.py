@@ -12,14 +12,14 @@ from folios.core import Settings
 from folios.core import exceptions as ex
 
 
-@raises(exceptions.FoliosAbortException)
+@raises(ex.AbortException)
 def test_not_a_site():
     tmpdir = tempfile.mkdtemp()
     not_a_site = os.path.join(tmpdir, 'not-a-site')
     os.mkdir(not_a_site)
     os.chdir(not_a_site)
     settings = Settings(os.getcwd())
-    site.Site(os.getcwd(), settings)
+    Site(settings, os.getcwd())
 
 
 class TestSite(object):
@@ -29,7 +29,7 @@ class TestSite(object):
         cli.main(['init', 'My Site', '-d', 'test-site'], do_exit=False)
         os.chdir(os.path.join(self.tmpdir, 'test-site'))
         settings = Settings(os.getcwd())
-        self.s = site.Site(os.getcwd(), settings)
+        self.s = Site(settings, os.getcwd())
 
     def teardown(self):
         shutil.rmtree(self.tmpdir)
@@ -47,18 +47,18 @@ class TestSite(object):
     def test_default_fallback(self):
         assert self.s.settings['site.url'] == 'http://localhost:8000'
 
-    @raises(exceptions.UnknownSettingException)
+    @raises(ex.UnknownSettingException)
     def test_site_get_invalid_section(self):
         self.s.settings['unkown.section']
 
-    @raises(exceptions.UnknownSettingException)
+    @raises(ex.UnknownSettingException)
     def test_site_get_invalid_option(self):
         self.s.settings['core.unknown']
 
-    @raises(exceptions.UnknownSettingException)
+    @raises(ex.UnknownSettingException)
     def test_site_set_invalid_section(self):
         self.s.settings['unkown.section'] = 'wrong'
 
-    @raises(exceptions.UnknownSettingException)
+    @raises(ex.UnknownSettingException)
     def test_site_set_invalid_option(self):
         self.s.settings['core.unknown'] = 'wrong'
