@@ -52,6 +52,6 @@ def run(args, settings, verbose, debug):
                 )
             )
         if not answer:
-            raise FoliosAbortException("Folder already in use.")
+            raise ex.AbortException("Folder already in use.")
 
-    return Site.new_site(sitename, path, debug, verbose)
+    Site.new_site(sitename, path, debug, verbose)
