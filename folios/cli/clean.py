@@ -33,6 +33,7 @@ Options:
   log           Cleans all site logging files.
   <filename>    Cleans all cache and HTML from a specific filename
 """
+__description__ = "Cleans the HTML files, metadata or cache."
 
 import os
 import glob
@@ -42,14 +43,9 @@ from folios.core import Settings
 
 
 
-def run(args, verbose, debug):
-    basepath = utils.resolveRootFolder(os.getcwd())
 
-    settings = Settings(basepath)
-    if debug:
-        settings.set_tmp('cli-log.level', 'debug')
-    if verbose:
-        settings.set_tmp('core.verbose', verbose)
+def run(args, settings, verbose, debug):
+    basepath = utils.resolve_root_folder()
 
     site = Site(settings, basepath)
 

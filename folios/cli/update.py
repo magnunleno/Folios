@@ -36,18 +36,16 @@ Options:
                 file(s).
 """
 
-
-from os import getcwd
+__description__ = "Updates the site (and/or it's meta informations) or parts " + \
+                  "of it."
 
 from folios.core import Site
 from folios.core import utils
 from folios.core import Settings
 
 
-def run(args, verbose, debug):
-    basepath = utils.resolveRootFolder(getcwd())
 
-    settings = Settings(basepath)
+def run(args, settings, verbose, debug):
     if debug:
         settings.set_tmp('cli-log.level', 'debug')
     if verbose:

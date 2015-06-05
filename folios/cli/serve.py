@@ -20,17 +20,18 @@
 """
 Folios - Yet another Static site generator.
 
-Usage: folios serve [-b=<address:port>] [-D -V]
+Usage: folios serve [-b <address:port>] [-D -V]
 
 Options:
-  -h --help     Show this screen.
-  -v --version  Show version.
-  -V --verbose      Show verbose information.
-  -D --debug        Show verbose information.
+  -h --help                 Show this screen.
+  -v --version              Show version.
+  -V --verbose              Show verbose information.
+  -D --debug                Show verbose information.
 
-  -b            Bind address and port. [default: 127.0.0.1:8000]
+  -b --bind=<address:port>  Bind address and port.
 """
 
+__description__ = "Serves the site in a easy way."
 
 import os
 
@@ -40,6 +41,10 @@ from http.server import SimpleHTTPRequestHandler
 from folios.core import utils
 from folios.core import Settings
 
+def run(args, settings, verbose, debug):
+    _bind = settings['core.serve']
+    browser = settings['core.browser']
+    path = settings.get_path('core.output')
 
 def run(args, verbose, debug):
     print(args)

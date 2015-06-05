@@ -31,6 +31,8 @@ Options:
   -d=<path>         Destiny path.
 """
 
+__description__ = "Creates new sites."
+
 import os
 
 from folios.cli import dialogs
@@ -39,11 +41,9 @@ from folios.core import Site
 from folios.core import exceptions as ex
 
 
-def run(args, verbose, debug):
+def run(args, settings, verbose, debug):
     sitename = args['<site-name>']
     path = args['-d'] if args['-d'] else utils.slugify(sitename)
-    debug = args['--debug']
-    verbose = args['--verbose']
 
     if os.path.exists(path):
         answer = dialogs.proceed_yes_no(

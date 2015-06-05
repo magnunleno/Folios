@@ -33,7 +33,8 @@ Options:
   <filename>    Cleans all cache and HTML from a specific filename
 """
 
-import os
+__description__ = "List items and informations about the current site."
+
 from colorama import Fore
 
 from folios.core import utils
@@ -76,16 +77,8 @@ def list_cache(site):
         print("")
 
 
-def run(args, verbose, debug):
-    basepath = utils.resolveRootFolder(os.getcwd())
-
-    settings = Settings(basepath)
-    if debug:
-        settings.set_tmp('cli-log.level', 'debug')
-    if verbose:
-        settings.set_tmp('core.verbose', verbose)
-
-    site = Site(settings, basepath)
+def run(args, settings, verbose, debug):
+    cache = Cache(settings)
 
     if "cache" in args:
         list_cache(site)
