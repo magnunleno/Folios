@@ -17,20 +17,30 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+"""
+I'd rather hate you for everything you are
+Than ever love you for something you are not
+I'd rather you hate me for everything i am
+Than have you love me for something that i can't
+            --- Never Enough (Five Finger Death Punch)
+"""
 
-class FoliosBaseException(Exception):
+class BaseException(Exception):
     def __init__(self, message):
         self.message = message
 
 
-class FoliosAbortException(FoliosBaseException):
+class AbortException(BaseException):
     pass
 
 
-class FoliosSkelException(FoliosBaseException):
+class SkelException(BaseException):
     pass
 
 
-class UnknownSettingException(FoliosBaseException):
+class UnknownSettingException(BaseException):
     def __init__(self, key):
         self.message = "Unknown setting '{}'".format(key)
+
+class ContentCompilingException(BaseException):
+    pass
