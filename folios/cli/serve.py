@@ -38,14 +38,34 @@ import os
 from http.server import HTTPServer
 from http.server import SimpleHTTPRequestHandler
 
-from folios.core import utils
-from folios.core import Settings
 
 def run(args, settings, verbose, debug):
     _bind = settings['core.serve']
     browser = settings['core.browser']
     path = settings.get_path('core.output')
 
-def run(args, verbose, debug):
-    print(args)
-    return args
+    if args['--bind']:
+        _bind = args['--bind']
+
+    if ':' in _bind:
+        address, port = _bind.split(':')
+        if not address:
+            address = 'localhost'
+        port = int(port)
+    else:
+        address = _bind
+        port = 8000
+
+    bind = (address, port)
+
+    os.chdir(path)
+    try:
+        server = HTTPServer(bind, SimpleHTTPRequestHandler)
+    except OSError as e:
+        print(e.args[1])
+    else:
+        os.system("(sleep 2 && {} http://{}:{}) &".format(browser, *bind))
+        try:
+            server.serve_forever()
+        except KeyboardInterrupt as e:
+            print("\nThanks for all the fish")
