@@ -4,3 +4,5 @@ colorama >= 0.3.3
 docutils >= 0.12
 jinja2 >= 2.7.3
 Pillow >= 2.8.1
+PyYAML==3.11
+

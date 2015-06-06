@@ -1,0 +1,42 @@
+site:
+        url: http://localhost:8000
+        name: My Site
+        theme: default
+        default_author: John Doe
+        default_category: Uncategorized
+
+core:
+        output: ./output
+        verbose: False
+        datetime_fmt: "%d/%m/%Y %H:%M"
+        serve: localhost:8000
+        browser: firefox
+
+images:
+        source: ./images
+        save_as: images/{slug}.{extension}
+        url: images/{slug}.{extension}
+
+articles:
+        source: ./articles
+        save_as: article/{slug}/index.html
+        url: article/{slug}
+
+pages:
+        source: ./pages
+        save_as: pages/{slug}/index.html
+        url: pages/{slug}
+
+cache:
+        enabled: True
+        folder: .folios/cache
+
+log:
+        cli:
+                level: info
+        file:
+                enabled: True
+                file_name: .folios/site.log
+                level: info
+                backups: 5
+                size: 10

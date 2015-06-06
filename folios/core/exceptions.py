@@ -40,7 +40,14 @@ class SkelException(BaseException):
 
 class UnknownSettingException(BaseException):
     def __init__(self, key):
-        self.message = "Unknown setting '{}'".format(key)
+        if isinstance(key, str):
+            self.message = "Unknown setting '{}'".format(key)
+        elif isinstance(key, set):
+            key = ", ".join(key)
+            self.message = "Unknown setting '{}'".format(key)
+
+class DummySettingsException(BaseException):
+    pass
 
 class ContentCompilingException(BaseException):
     pass

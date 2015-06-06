@@ -1,0 +1,16 @@
+core:
+        output: ./output
+
+images:
+        source: ./images
+
+articles:
+        source: ./articles
+
+pages:
+        source: ./pages
+
+cache:
+        enabled: True
+        folder: ./.folios/cache
+
