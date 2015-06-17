@@ -38,6 +38,11 @@ class SkelException(BaseException):
     pass
 
 
+class UnexistentSourceException(BaseException):
+    pass
+
+
+
 class UnknownSettingException(BaseException):
     def __init__(self, key):
         if isinstance(key, str):
@@ -46,8 +51,10 @@ class UnknownSettingException(BaseException):
             key = ", ".join(key)
             self.message = "Unknown setting '{}'".format(key)
 
+
 class DummySettingsException(BaseException):
     pass
+
 
 class ContentCompilingException(BaseException):
     pass
