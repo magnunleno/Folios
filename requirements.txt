@@ -5,4 +5,4 @@ docutils >= 0.12
 jinja2 >= 2.7.3
 Pillow >= 2.8.1
 PyYAML==3.11
-
+Pygments==2.0.2
