@@ -43,10 +43,5 @@ from folios.core import Site
 
 
 def run(args, settings, verbose, debug):
-    if debug:
-        settings.set_tmp('cli-log.level', 'debug')
-    if verbose:
-        settings.set_tmp('core.verbose', verbose)
-
     site = Site(settings)
     site.update()
