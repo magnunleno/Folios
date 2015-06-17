@@ -33,7 +33,7 @@ LEVEL = {
         ),
     logging.INFO: (
         'INFO',
-        Fore.RESET + Back.RESET + Style.NORMAL,
+        Fore.BLACK + Back.WHITE + Style.NORMAL,
         Fore.RESET + Back.RESET + Style.NORMAL,
         ),
     logging.WARNING: (
@@ -59,12 +59,11 @@ class ColorFormatter(logging.Formatter):
         self.verbose = verbose
 
         if self.verbose:
-            fmt = Style.DIM + "[%(asctime)s] %(name)s:%(funcName)s@" + \
-                "%(filename)s:%(lineno)s" + Style.NORMAL + \
-                " %(level_color)s%(message)s"
+            fmt = Style.DIM + "[%(asctime)s]" + Style.NORMAL + \
+                " %(level_color)s%(message)s "+ Style.DIM + \
+                "[%(name)s:%(funcName)s@%(filename)s:%(lineno)s]"
         else:
-            fmt = Style.DIM + "%(name)s@" + Style.NORMAL + \
-                "%(level_color)s%(message)s"
+            fmt = "%(level_color)s%(message)s"
 
         datefmt = "%Y-%m-%d %H:%M"
         super(ColorFormatter, self).__init__(fmt=fmt, datefmt=datefmt)
@@ -74,10 +73,10 @@ class ColorFormatter(logging.Formatter):
             return super(ColorFormatter, self).format(record)
 
         lvl, lvl_cl, msg_cl = LEVEL[record.levelno]
-        if record.levelno == logging.INFO:
-            record.level_color = RESET_ALL
-        else:
+        if self.verbose:
             record.level_color = "{0}{1}:{2} ".format(lvl_cl, lvl, RESET_ALL)
+        else:
+            record.level_color = RESET_ALL
         record.msg = msg_cl + record.msg + RESET_ALL
         return super(ColorFormatter, self).format(record)
 
@@ -98,19 +97,19 @@ def get_logger(name, settings, handler=None):
         return logger
 
     # File logger
-    file_level = resolve_level(settings['file-log.level'])
-    if settings['file-log.enable']:
+    file_level = resolve_level(settings['log.file.level'])
+    if settings['log.file.enabled']:
         logger.addHandler(
             get_file_handler(
-                fname=settings['file-log.file_name'],
-                size=int(settings['file-log.size'])*1024,
-                backups=int(settings['file-log.backups']),
+                fname=settings.get_path('log.file.file_name'),
+                size=int(settings['log.file.size'])*1024,
+                backups=int(settings['log.file.backups']),
                 level=file_level,
                 )
             )
 
     # Cli logger
-    cli_level = resolve_level(settings['cli-log.level'])
+    cli_level = resolve_level(settings['log.cli.level'])
     logger.addHandler(
         get_cli_handler(
             handler=handler,
@@ -144,25 +143,25 @@ def get_file_handler(fname, size, backups, level=logging.INFO):
     handler.setLevel(level)
     handler.setFormatter(
         logging.Formatter(
-            fmt="[%(asctime)s@%(name)s] :%(levelname)s: %(message)s",
-            datefmt="%Y-%m-%d %H:%M"
+            fmt = "[%(asctime)s] :%(levelname)s: %(message)s " +\
+                  "[%(name)s:%(funcName)s@%(filename)s:%(lineno)s]",
+                datefmt="%Y-%m-%d %H:%M"
             )
         )
     return handler
 
 if __name__ == '__main__':
-    print("First test")
-    log = get_logger('main',
-                     {
-                         'core.verbose': True,
-                         'cli-log.level': 'debug',
-                         'file-log.enable': True,
-                         'file-log.file_name': '/tmp/folios.log',
-                         'file-log.level': 'debug',
-                         'file-log.backups': 5,
-                         'file-log.size': 10,
-                     }
-                     )
+    from folios.core.settings import Settings
+    sett = Settings('.')
+    sett['core.verbose'] = True
+    sett['log.cli.level'] = 'debug'
+    sett['log.file.enabled'] = True
+    sett['log.file.file_name'] = '/tmp/folios.log'
+    sett['log.file.level'] = 'debug'
+    sett['log.file.backups'] = 5
+    sett['log.file.size'] = 10
+
+    log = get_logger('main', sett)
     log.debug('This is a debug text')
     log.info('This is a info text')
     log.warning('This is a warning text')
@@ -170,17 +169,17 @@ if __name__ == '__main__':
     log.critical('This is a critical text')
 
     print("\nSecond test")
-    log = get_logger('main2',
-                     {
-                         'core.verbose': False,
-                         'cli-log.level': 'debug',
-                         'file-log.enable': True,
-                         'file-log.file_name': '/tmp/folios.log',
-                         'file-log.level': 'debug',
-                         'file-log.backups': 5,
-                         'file-log.size': 10,
-                         }
-                     )
+    sett2 = Settings('.')
+    sett2['core.verbose'] = False
+    sett2['log.cli.level'] = 'debug'
+    sett2['log.file.enabled'] = True
+    sett2['log.file.file_name'] = '/tmp/folios.log'
+    sett2['log.file.level'] = 'debug'
+    sett2['log.file.backups'] = 5
+    sett2['log.file.size'] = 10
+
+    print(sett2['log.file.file_name'])
+    log = get_logger('main2', sett2)
     log.debug('This is a debug text')
     log.info('This is a info text')
     log.warning('This is a warning text')
