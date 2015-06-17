@@ -62,6 +62,7 @@ class Settings(object):
         '__orig_dict',
         'site_basepath',
         'norm_src_path',
+        '__weakref__',
         ]
 
     def __init__(self, from_dict=None):

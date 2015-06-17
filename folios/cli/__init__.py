@@ -35,7 +35,7 @@ No matter what your dreams might be
                 --- Something for Nothing (Rush)
 """
 
-"""
+__doc__ = """
 Folios - Yet another Static site generator.
 
 Usage:
@@ -131,15 +131,15 @@ def main(argv, do_exit=True):
     verbose = inner_args['--verbose']
 
     if name == "init":
-        sett = Settings(basepath=None)
-        sett['file-log.enabled'] = False
+        sett = Settings(from_dict={})
+        sett['log.file.enabled'] = False
     else:
-        sett = Settings(utils.resolve_root_folder())
+        sett = Settings()
 
     log = logger.get_logger('cli.main', sett)
 
     if debug:
-        sett.set_tmp('cli-log.level', 'debug')
+        sett.set_tmp('log.cli.level', 'debug')
 
     if verbose:
         sett.set_tmp('core.verbose', verbose)
