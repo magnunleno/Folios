@@ -206,3 +206,10 @@ def slugify(text):
     text = unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode('ascii')
     text = re.sub('[^\w\s-]', '', text).strip().lower()
     return re.sub('[-\s]+', '-', text)
+
+def get_better_path_rep(path):
+    '''
+    Returns the best (smallest) representation for the specified path.
+    '''
+    normalized = normpath(path)
+    return path if len(path) < len(normalized) else normalized
