@@ -42,6 +42,9 @@ class UnexistentSourceException(BaseException):
     pass
 
 
+class ObligatoryFieldsException(BaseException):
+    pass
+
 
 class UnknownSettingException(BaseException):
     def __init__(self, key):
