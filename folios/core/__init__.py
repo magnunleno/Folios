@@ -36,5 +36,4 @@ __rootfolder__ = '.folios'
 
 from folios.core import utils
 from folios.core.site import Site
-from folios.core.cache import Cache
 from folios.core.settings import Settings
