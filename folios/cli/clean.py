@@ -41,28 +41,26 @@ import glob
 from folios.core import utils
 
 
-def delete_folder(path, basepath):
-    print("Cleaning cache at '{}'".format(
-        utils.normpath(path, basepath)
+def delete_folder(path, context):
+    print("Cleaning {} at '{}'".format(
+        context, utils.get_better_path_rep(path)
         ))
     utils.delete_folder(path)
 
 
 def run(args, settings, verbose, debug):
-    basepath = utils.resolve_root_folder()
-
     if args["--cache"]:
-        delete_folder(settings.get_path("cache.folder"), basepath)
+        delete_folder(settings.get_path("cache.folder"), "cache")
 
     if args["--output"]:
-        delete_folder(settings.get_path("core.output"), basepath)
+        delete_folder(settings.get_path("core.output"), "output")
 
-    if args["--log"] and settings['file-log.enabled']:
-        file_pattr = settings.get_path('file-log.file_name') + "*"
+    if args["--log"] and settings['log.file.enabled']:
+        file_pattr = settings.get_path('log.file.file_name') + "*"
         files = glob.glob(file_pattr)
         files.sort()
         for fname in files:
             print("Cleaning log at '{}'".format(
-                utils.normpath(fname, basepath)
+                utils.get_better_path_rep(fname)
                 ))
             os.remove(fname)
